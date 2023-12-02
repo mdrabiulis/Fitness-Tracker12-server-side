@@ -27,9 +27,8 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    const Newslettercollection = client
-      .db("assignment12DB")
-      .collection("newsletter");
+    const Newslettercollection = client.db("assignment12DB").collection("newsletter");
+    const trainercollection = client.db("assignment12DB").collection("trainer");
 
     // Newsletter
     app.post("/newsletter", async (req, res) => {
@@ -43,7 +42,12 @@ async function run() {
       res.send(result);
     });
 
+    // Trainer Section
 
+    app.get("/trainer", async (req, res) => {
+      const result = await trainercollection.find().toArray();
+      res.send(result);
+    });
     
 
     // Send a ping to confirm a successful connection
