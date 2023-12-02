@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -27,7 +27,9 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    const Newslettercollection = client.db("assignment12DB").collection("newsletter");
+    const Newslettercollection = client
+      .db("assignment12DB")
+      .collection("newsletter");
     const trainercollection = client.db("assignment12DB").collection("trainer");
 
     // Newsletter
@@ -48,7 +50,17 @@ async function run() {
       const result = await trainercollection.find().toArray();
       res.send(result);
     });
-    
+
+
+    app.get("/trainer/:id", async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await trainercollection.findOne(query);
+      res.send(result);
+
+    })
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
