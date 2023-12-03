@@ -27,20 +27,22 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    const Newslettercollection = client
+    const newslettercollection = client
       .db("assignment12DB")
       .collection("newsletter");
     const trainercollection = client.db("assignment12DB").collection("trainer");
+    const classescollection = client.db("assignment12DB").collection("classes");
+    // const newslettercollection = client.db("assignment12DB").collection("newsletter");
 
     // Newsletter
     app.post("/newsletter", async (req, res) => {
       const data = req.body;
-      const result = await Newslettercollection.insertOne(data);
+      const result = await newslettercollection.insertOne(data);
       res.send(result);
     });
 
     app.get("/newsletter", async (req, res) => {
-      const result = await Newslettercollection.find().toArray();
+      const result = await newslettercollection.find().toArray();
       res.send(result);
     });
 
@@ -51,14 +53,25 @@ async function run() {
       res.send(result);
     });
 
-
-    app.get("/trainer/:id", async(req,res)=>{
+    app.get("/trainer/:id", async (req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
+      const query = { _id: new ObjectId(id) };
       const result = await trainercollection.findOne(query);
       res.send(result);
+    });
 
-    })
+    // Classes Section
+
+
+    app.get("/classes", async (req, res) => {
+      const result = await classescollection.find().toArray();
+      res.send(result);
+    });
+
+
+
+
+
 
 
 
