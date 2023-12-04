@@ -33,9 +33,36 @@ async function run() {
     const trainercollection = client.db("assignment12DB").collection("trainer");
     const classescollection = client.db("assignment12DB").collection("classes");
     const appliedcollection = client.db("assignment12DB").collection("applied");
+    const reviewscollection = client.db("assignment12DB").collection("reviews");
 
-    // applied class
 
+
+
+
+
+
+
+
+    // reviews
+
+    app.get("/reviews", async (req, res) => {
+      const result = await reviewscollection.find().toArray();
+      res.send(result);
+    });
+
+
+    app.post("/reviews", async (req, res) => {
+      const data = req.body;
+      const result = await reviewscollection.insertOne(data);
+      res.send(result);
+    });
+
+
+   
+
+
+
+  // applied class
     app.post("/applied", async (req, res) => {
       const applied = req.body;
       const result = await appliedcollection.insertOne(applied);
