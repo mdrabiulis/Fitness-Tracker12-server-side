@@ -9,7 +9,9 @@ const port = process.env.PORT || 5000;
 const access = process.env;
 
 // Express middleware
-app.use(cors());
+app.use(cors(
+  {origin: [ "https://assignment12-server-side-liart.vercel.app/","https://superb-pastelito-ae81ef.netlify.app"],}
+));
 app.use(express.json());
 
 const uri = `mongodb+srv://${access.USER_AC}:${access.DATABASE_SECRET_KEY}@cluster0.wvvqbv9.mongodb.net/?retryWrites=true&w=majority`;
@@ -61,7 +63,7 @@ async function run() {
       const token = req.headers.authorization.split(" ")[1];
       jwt.verify(token, access.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
-          return res.status(401).send({ message: "unaoooo" });
+          return res.status(401).send({ message: "unauthorized" });
         }
         req.decoded = decoded;
         next();
@@ -208,10 +210,10 @@ app.get('/users/admin/:email', verifyToken, async (req, res) => {
     });
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+      // "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
